@@ -1,7 +1,9 @@
 Instructions to run the backend locally
 
 Step A: Create a virtual environment
+'''
 python -m venv venv
+'''
 
 
 This creates a venv folder (virtual environment) inside the project.
