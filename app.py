@@ -251,54 +251,6 @@ def get_summary():
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
 
-@app.route('/weights', methods=['GET', 'POST'])
-def manage_weights():
-    """Get or update scoring weights."""
-    global DEFAULT_WEIGHTS
-    
-    if request.method == 'GET':
-        return jsonify({
-            "success": True,
-            "weights": DEFAULT_WEIGHTS
-        }), 200
-    
-    try:
-        data = request.get_json()
-        new_weights = data.get('weights', {})
-        
-        required_keys = ['gwp', 'circularity', 'cost']
-        if not all(key in new_weights for key in required_keys):
-            return jsonify({
-                "success": False,
-                "error": "Must provide gwp, circularity, and cost weights"
-            }), 400
-        
-        weight_sum = sum(new_weights.values())
-        if abs(weight_sum - 1.0) > 0.01:
-            return jsonify({
-                "success": False,
-                "error": f"Weights must sum to 1.0 (current sum: {weight_sum})"
-            }), 400
-        
-        DEFAULT_WEIGHTS = new_weights
-        
-        return jsonify({
-            "success": True,
-            "message": "Weights updated successfully",
-            "weights": DEFAULT_WEIGHTS
-        }), 200
-        
-    except Exception as e:
-        return jsonify({"success": False, "error": str(e)}), 500
-
-@app.route('/health', methods=['GET'])
-def health_check():
-    """Health check endpoint."""
-    return jsonify({
-        "status": "healthy",
-        "timestamp": datetime.now().isoformat(),
-        "total_submissions": len(submissions)
-    }), 200
 
 @app.route('/clear', methods=['POST'])
 def clear_data():
