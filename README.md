@@ -30,3 +30,8 @@ Step D: Run the app
 ```
 python app.py
 ```
+
+Step E: add ```.env```
+
+```CLAUDE_API_KEY=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```
+
